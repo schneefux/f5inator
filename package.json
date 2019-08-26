@@ -1,0 +1,25 @@
+{
+  "name": "f5inator",
+  "version": "1.0.0",
+  "description": "My good Nuxt.js project",
+  "author": "schneefux",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "chrome-aws-lambda": "^1.19.0",
+    "node-fetch": "^2.6.0",
+    "nuxt": "^2.0.0",
+    "puppeteer-core": "^1.19.0",
+    "vue-cropperjs": "^4.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^1.0.0",
+    "puppeteer": "^1.19.0"
+  }
+}
