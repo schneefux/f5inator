@@ -22,7 +22,7 @@ exports.handler = async (event) => {
       waitUntil: ['domcontentloaded', 'networkidle0'],
     })
 
-    const filename = crypto.createHash('sha256').update(url).digest('base64').replace(/\+|\//g, '') + '.png'
+    const filename = crypto.createHash('sha256').update(url).digest('base64').replace(/\+|\/|=/g, '') + '.png'
     const screenshot = await page.screenshot({
       path: '/tmp/' + filename,
       // path: './tmp/' + filename,
