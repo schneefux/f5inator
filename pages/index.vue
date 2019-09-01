@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen flex flex-col justify-center items-center bg-blue-900">
-    <div class="text-center mt-30vh">
+  <div class="min-h-screen flex flex-col bg-blue-900">
+    <div class="text-center mt-40vh">
       <h1 class="text-5xl uppercase font-black text-gray-200">
         f5inator
       </h1>
@@ -93,7 +93,7 @@ export default {
       https: true,
       url: '',
       screenshot: undefined,
-      cropData: undefined,
+      cropData: {},
     }
   },
   methods: {
@@ -130,8 +130,8 @@ export default {
   min-height: 100vh;
 }
 
-.mt-30vh {
-  margin-top: 30vh;
+.mt-40vh {
+  margin-top: 40vh;
 }
 
 .h-400px {
