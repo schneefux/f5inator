@@ -4,7 +4,13 @@ const puppeteer = require('puppeteer-core')
 // const puppeteer = require('puppeteer')
 
 exports.handler = async (event) => {
-  const url = decodeURIComponent(event.queryStringParameters.url)
+  const params = event.queryStringParameters
+  const url = decodeURIComponent(params.url)
+  const x = 'x' in params ? parseInt(params.x) : undefined
+  const y = 'y' in params ? parseInt(params.y) : undefined
+  const width = 'width' in params ? parseInt(params.width) : undefined
+  const height = 'height' in params ? parseInt(params.height) : undefined
+
   let browser
 
   try {
@@ -23,13 +29,15 @@ exports.handler = async (event) => {
     })
 
     const filename = crypto.createHash('sha256').update(url).digest('base64').replace(/\+|\/|=/g, '') + '.png'
+    const fullPage = [x, y, width, height].includes(undefined)
+    const clip = fullPage ? undefined : { x, y, width, height }
     const screenshot = await page.screenshot({
       path: '/tmp/' + filename,
       // path: './tmp/' + filename,
       type: 'png',
-      fullPage: true,
       encoding: 'base64',
-      // clip: { x, y, width, height }
+      fullPage,
+      clip,
     })
 
     return {
