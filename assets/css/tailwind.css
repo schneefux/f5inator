@@ -1,3 +1,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.step-description {
+  @apply text-xl font-medium;
+}
+
+.step-btn {
+  @apply bg-purple-600 px-3 py-1 font-semibold;
+}
