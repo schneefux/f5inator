@@ -23,6 +23,9 @@ export default {
   modules: [
     '@nuxtjs/pwa',
   ],
+  purgeCSS: {
+    whitelistPatterns: [/cropper-.*/]
+  },
   build: {
     extend (config, ctx) {
     }
