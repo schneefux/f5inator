@@ -62,9 +62,14 @@
         </div>
       </form>
 
+      <div
+        v-show="step === 1"
+        class="mx-auto loader"
+      />
+
       <form
         v-if="screenshot !== undefined"
-        v-show="step === 1"
+        v-show="step === 2"
         class="flex flex-col items-center"
         @submit.prevent="submitCrop"
       >
@@ -95,8 +100,13 @@
         </button>
       </form>
 
+      <div
+        v-show="step === 3"
+        class="mx-auto loader"
+      />
+
       <form
-        v-show="step === 2"
+        v-show="step === 4"
         class="flex flex-col items-center"
         @submit.prevent="loadScreenshot"
       >
@@ -148,10 +158,12 @@ export default {
       this.https = !this.https
     },
     async submitUrl() {
+      this.step++
       await this.loadScreenshot()
       this.step++
     },
     async submitCrop() {
+      this.step++
       await this.loadScreenshot()
       this.referenceScreenshot = this.screenshot
 
@@ -242,5 +254,17 @@ export default {
 
 .step-btn {
   @apply bg-purple-600 px-3 py-1 font-semibold;
+}
+
+.loader {
+  @apply w-16 h-16 rounded-full;
+  border: 0.5rem solid theme('colors.gray.300');
+  border-top: 0.5rem solid theme('colors.purple.500');
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
