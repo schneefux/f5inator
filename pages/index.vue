@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-blue-900">
-    <div class="text-center mt-40vh">
+  <div class="min-h-screen flex flex-col justify-center bg-blue-900">
+    <div class="text-center">
       <h1 class="text-5xl uppercase font-black text-gray-200">
         f5inator
       </h1>
@@ -238,10 +238,6 @@ export default {
 
 .min-h-screen {
   min-height: 100vh;
-}
-
-.mt-40vh {
-  margin-top: 40vh;
 }
 
 .max-h-400px {
