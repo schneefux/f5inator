@@ -94,7 +94,8 @@ export default {
 
         if (this.notificationsAllowed) {
           const sw = await navigator.serviceWorker.ready
-          sw.showNotification(`${this.url} has changed!`)
+          const host = new URL(this.url).host
+          sw.showNotification(`${host} has changed!`)
         }
 
         clearInterval(this.timer)
