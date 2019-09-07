@@ -6,7 +6,7 @@
       </h1>
     </div>
 
-    <div class="mt-10 px-16 text-gray-300">
+    <div class="mt-10 px-8 md:px-16 text-gray-300">
       <form
         v-show="step === 0"
         class="flex flex-col items-center"
@@ -31,7 +31,7 @@
               v-model="url"
               id="url-input"
               type="text"
-              class="bg-gray-500 text-blue-800 pl-2 py-1 -mr-2 font-semibold"
+              class="bg-gray-500 text-blue-800 pl-2 py-1 -mr-2 font-semibold w-32 md:w-auto"
               required
             />
             <span class="bg-gray-500 py-1 -mr-2 px-2 inline-block">
