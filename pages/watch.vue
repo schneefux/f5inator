@@ -6,6 +6,9 @@
     >
       Watching for changes…
     </span>
+    <span v-show="timer !== undefined">
+      Next update in {{ secondsTillNextUpdate }} seconds.
+    </span>
     <span
       v-show="changeDetected"
       class="step-description"
@@ -38,6 +41,7 @@ export default {
     const referenceScreenshot = 'data:image/png;base64,' + pngBinary
 
     return {
+      url,
       params,
       referenceScreenshot,
       screenshot: referenceScreenshot,
@@ -47,8 +51,11 @@ export default {
     return {
       screenshot: undefined,
       timer: undefined,
-      notificationsAllowed: false,
       changeDetected: false,
+      notificationsAllowed: false,
+      lastUpdate: new Date(),
+      refreshRateSeconds: 60,
+      secondsTillNextUpdate: 60,
     }
   },
   async created() {
@@ -57,14 +64,23 @@ export default {
     }
     this.notificationsAllowed = Notification.permission !== 'denied'
 
-    this.timer = setInterval(() => this.onTick(), 60000)
+    this.timer = setInterval(() => this.onTick(), 15000)
   },
   methods: {
-    async onTick() {
+    onTick() {
+      const secondsSinceLastUpdate = Math.floor(Date.now() - this.lastUpdate.valueOf() / 1000)
+      const secondsTillNextUpdate = Math.max(0, this.refreshRateSeconds - secondsSinceLastUpdate)
+      this.secondsTillNextUpdate = secondsTillNextUpdate
+      if (secondsTillNextUpdate === 0) {
+        this.refresh()
+      }
+    },
+    async refresh() {
       const png = await fetch('/.netlify/functions/render?' + this.params.toString())
         .then(res => res.text())
 
       this.screenshot = 'data:image/png;base64,' + png
+      this.lastUpdate = new Date()
 
       const options = {
         ignore: 'antialiasing',
