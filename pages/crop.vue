@@ -49,7 +49,14 @@ export default {
   components: {
     VueCropper,
   },
-  // TODO validate
+  async validate({ query }) {
+    try {
+      new URL(query.url)
+      return true
+    } catch (err) {
+      return false
+    }
+  },
   async asyncData({ query }) {
     const url = query.url || ''
 

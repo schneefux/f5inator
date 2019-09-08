@@ -55,7 +55,19 @@ export default {
       title: 'Watching ' + this.host,
     }
   },
-  // TODO validate
+  async validate({ query }) {
+    try {
+      new URL(query.url)
+      // should include all 4 properties or none
+      return [0, 4].includes(
+        ['x', 'y', 'width', 'height']
+          .filter(prop => prop in query)
+          .length
+      )
+    } catch (err) {
+      return false
+    }
+  },
   async asyncData({ query }) {
     const params = new URLSearchParams(query)
     const pngBinary = await fetch('/.netlify/functions/render?' + params.toString())
