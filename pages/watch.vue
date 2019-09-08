@@ -1,30 +1,53 @@
 <template>
   <div class="flex flex-col items-center">
-    <span
+    <p
       v-show="!changeDetected"
       class="step-description"
     >
       Watching for changes…
-    </span>
-    <span v-show="!changeDetected">
-      Next update in {{ secondsTillNextUpdate }} seconds.
-    </span>
-    <span
+    </p>
+    <p>
+      Next update: In {{ tillNextUpdateFormatted }}.
+    </p>
+    <div
+      v-show="!changeDetected"
+      class="text-sm"
+    >
+      <span>
+        Updating every {{ refreshIntervalFormatted }}.
+      </span>
+      <button
+        v-show="refreshIntervalSeconds > 120"
+        class="ml-2 mt-2 step-btn rounded"
+        @click="increaseUpdateFrequency"
+      >
+        Update faster
+      </button>
+    </div>
+    <p
       v-show="changeDetected"
       class="step-description"
     >
       Change detected!
-    </span>
+    </p>
 
     <img
       :src="screenshot"
-      class="mt-3 max-h-400px"
+      class="mt-4 max-h-400px"
     />
   </div>
 </template>
 
 <script>
 import compareImages from 'resemblejs/compareImages'
+
+function formatIntervalSeconds(seconds) {
+  if (seconds > 90) {
+    return Math.ceil(seconds / 60) + ' minutes'
+  }
+
+  return seconds + ' seconds'
+}
 
 export default {
   // TODO validate
@@ -50,8 +73,8 @@ export default {
       notificationsAllowed: false,
       lastUpdate: new Date(),
       timerIntervalSeconds: 15,
-      secondsTillNextUpdate: 60,
-      refreshIntervalSeconds: 60,
+      secondsTillNextUpdate: 1800,
+      refreshIntervalSeconds: 1800,
     }
   },
   async created() {
@@ -62,7 +85,24 @@ export default {
 
     this.timer = setTimeout(() => this.onTick(), this.timerIntervalSeconds * 1000)
   },
+  computed: {
+    refreshIntervalFormatted() {
+      return formatIntervalSeconds(this.refreshIntervalSeconds)
+    },
+    tillNextUpdateFormatted() {
+      return formatIntervalSeconds(this.secondsTillNextUpdate)
+    },
+  },
   methods: {
+    increaseUpdateFrequency() {
+      const reducedInterval = Math.ceil(this.refreshIntervalSeconds / 1.5 / 60) * 60
+      this.refreshIntervalSeconds = reducedInterval
+
+      if (this.timer !== undefined) {
+        clearInterval(this.timer)
+      }
+      this.onTick()
+    },
     async onTick() {
       const secondsSinceLastUpdate = Math.floor((Date.now() - this.lastUpdate.valueOf()) / 1000)
       this.secondsTillNextUpdate = Math.max(0, this.refreshIntervalSeconds - secondsSinceLastUpdate)
