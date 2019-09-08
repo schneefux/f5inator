@@ -88,7 +88,7 @@ export default {
         this.referenceScreenshot, this.screenshot, options)
       const score = diff.rawMisMatchPercentage
 
-      if (score > 1) {
+      if (score > 0) {
         this.changeDetected = true
 
         if (this.notificationsAllowed) {
