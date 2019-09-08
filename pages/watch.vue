@@ -29,10 +29,6 @@ import compareImages from 'resemblejs/compareImages'
 export default {
   // TODO validate
   async asyncData({ query }) {
-    const url = query.url || ''
-    const cropBox = ['x', 'y', 'width', 'height']
-      .reduce((box, prop) => prop in query ? {...box, [prop]: +query[prop]} : box, {})
-
     const URLSearchParams = global.URLSearchParams || require('url').URLSearchParams
     const params = new URLSearchParams(query)
     // TODO when rendering server side, fetch needs an absolute URL
@@ -41,7 +37,7 @@ export default {
     const referenceScreenshot = 'data:image/png;base64,' + pngBinary
 
     return {
-      url,
+      url: query.url,
       params,
       referenceScreenshot,
       screenshot: referenceScreenshot,

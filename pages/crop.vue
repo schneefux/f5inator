@@ -3,9 +3,25 @@
     class="flex flex-col items-center"
     @submit.prevent="$router.push(watchRoute)"
   >
-    <label for="crop-btn-submit" class="step-description">
-      Select an area to monitor
-    </label>
+    <div>
+      <label for="crop-btn-submit" class="step-description">
+        Select an area to monitor
+      </label>
+
+      <button
+        id="crop-btn-submit"
+        type="submit"
+        class="ml-3 step-btn rounded"
+      >
+        <span
+          v-show="($nuxt.$loading||{}).show"
+          class="loader inline-flex"
+        />
+        <span v-show="!($nuxt.$loading||{}).show">
+          Next
+        </span>
+      </button>
+    </div>
 
     <div class="mt-3 max-h-400px overflow-y-scroll mx-auto">
       <vue-cropper
@@ -13,29 +29,11 @@
         :crop="onCrop"
         :viewMode="2"
         :data="cropBox"
-        :autoCrop="true"
-        :autoCropArea="0.2"
+        :autoCrop="false"
         :rotatable="false"
         :zoomable="false"
-        class=""
       />
     </div>
-
-    <button
-      id="crop-btn-submit"
-      type="submit"
-      class="mt-3 step-btn rounded"
-    >
-      <span
-        v-show="($nuxt.$loading||{}).show"
-        class="loader inline-flex"
-      />
-      <span
-        v-show="!($nuxt.$loading||{}).show"
-      >
-        Next
-      </span>
-    </button>
   </form>
 </template>
 
@@ -71,14 +69,18 @@ export default {
   },
   computed: {
     watchRoute() {
+      const hasCropbox = ['x', 'y', 'width', 'height'].every(prop => prop in this.cropBox)
+
       return {
         name: 'watch',
         query: {
           url: this.url,
-          x: Math.round(this.cropBox.x),
-          y: Math.round(this.cropBox.y),
-          width: Math.round(this.cropBox.width),
-          height: Math.round(this.cropBox.height),
+          ...hasCropbox ? {
+            x: Math.round(this.cropBox.x),
+            y: Math.round(this.cropBox.y),
+            width: Math.round(this.cropBox.width),
+            height: Math.round(this.cropBox.height),
+          } : {},
         },
       }
     },
