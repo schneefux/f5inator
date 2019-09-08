@@ -32,7 +32,13 @@
           type="submit"
           class="step-btn -mr-1 rounded-r"
         >
-          Go
+          <span
+            v-show="($nuxt.$loading||{}).show"
+            class="loader inline-flex"
+          />
+          <span v-show="!($nuxt.$loading||{}).show">
+            Go
+          </span>
         </button>
       </div>
       <div

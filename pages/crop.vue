@@ -26,7 +26,15 @@
       type="submit"
       class="mt-3 step-btn rounded"
     >
-      Next
+      <span
+        v-show="($nuxt.$loading||{}).show"
+        class="loader inline-flex"
+      />
+      <span
+        v-show="!($nuxt.$loading||{}).show"
+      >
+        Next
+      </span>
     </button>
   </form>
 </template>

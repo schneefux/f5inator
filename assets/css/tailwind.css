@@ -9,3 +9,15 @@
 .step-btn {
   @apply bg-purple-600 px-3 py-1 font-semibold;
 }
+
+.loader {
+  @apply w-5 h-5 rounded-full;
+  border: 0.2rem solid theme('colors.gray.300');
+  border-top: 0.2rem solid theme('colors.purple.500');
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
