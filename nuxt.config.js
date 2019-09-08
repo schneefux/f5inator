@@ -1,7 +1,7 @@
 export default {
   mode: 'spa',
   head: {
-    title: process.env.npm_package_name || '',
+    titleTemplate: '%s - f5inator',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

@@ -62,6 +62,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      titleTemplate: '',
+    }
+  },
   data() {
     return {
       https: true,

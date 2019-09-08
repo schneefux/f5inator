@@ -41,6 +41,11 @@
 import VueCropper from 'vue-cropperjs'
 
 export default {
+  head() {
+    return {
+      title: 'Configure ' + new URL(this.url).host,
+    }
+  },
   components: {
     VueCropper,
   },

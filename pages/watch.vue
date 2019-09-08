@@ -4,7 +4,7 @@
       v-show="!changeDetected"
       class="step-description"
     >
-      Watching for changes…
+      Watching for changes on {{ host }}…
     </p>
     <p>
       Next update: In {{ tillNextUpdateFormatted }}.
@@ -50,6 +50,11 @@ function formatIntervalSeconds(seconds) {
 }
 
 export default {
+  head() {
+    return {
+      title: 'Watching ' + this.host,
+    }
+  },
   // TODO validate
   async asyncData({ query }) {
     const URLSearchParams = global.URLSearchParams || require('url').URLSearchParams
@@ -92,6 +97,9 @@ export default {
     tillNextUpdateFormatted() {
       return formatIntervalSeconds(this.secondsTillNextUpdate)
     },
+    host() {
+      return new URL(this.url).host
+    },
   },
   methods: {
     increaseUpdateFrequency() {
@@ -133,8 +141,7 @@ export default {
 
         if (this.notificationsAllowed) {
           const sw = await navigator.serviceWorker.ready
-          const host = new URL(this.url).host
-          sw.showNotification(`${host} has changed!`)
+          sw.showNotification(`${this.host} has changed!`)
         }
       }
     },
