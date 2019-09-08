@@ -24,7 +24,7 @@ export default {
     '@nuxtjs/pwa',
   ],
   purgeCSS: {
-    whitelistPatterns: [/cropper-.*/]
+    whitelistPatterns: [/cropper-.*/, /line-.*/, /point-.*/],
   },
   build: {
     extend (config, ctx) {
