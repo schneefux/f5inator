@@ -57,7 +57,6 @@ export default {
   },
   // TODO validate
   async asyncData({ query }) {
-    const URLSearchParams = global.URLSearchParams || require('url').URLSearchParams
     const params = new URLSearchParams(query)
     const pngBinary = await fetch('/.netlify/functions/render?' + params.toString())
       .then(res => res.text())
