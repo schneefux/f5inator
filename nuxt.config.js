@@ -26,8 +26,7 @@ export default {
   purgeCSS: {
     whitelistPatterns: [/cropper-.*/, /line-.*/, /point-.*/],
   },
-  build: {
-    extend (config, ctx) {
-    }
-  }
+  generate: {
+    fallback: true,
+  },
 }
