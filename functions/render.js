@@ -49,8 +49,8 @@ exports.handler = async (event) => {
     }
   } catch (error) {
     return {
-      statusCode: 500,
-      body: error,
+      statusCode: 400,
+      body: JSON.stringify(error),
     }
   } finally {
     if (browser !== undefined) {

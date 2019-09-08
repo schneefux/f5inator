@@ -61,7 +61,13 @@ export default {
     const url = query.url || ''
 
     const pngBinary = await fetch('/.netlify/functions/render?url=' + url)
-      .then(res => res.text())
+      .then(res => {
+        if (res.ok) {
+          return res.text()
+        } else {
+          throw new Error('Invalid URL.')
+        }
+      })
     const screenshot = 'data:image/png;base64,' + pngBinary
 
     return {

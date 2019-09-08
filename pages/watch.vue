@@ -71,7 +71,13 @@ export default {
   async asyncData({ query }) {
     const params = new URLSearchParams(query)
     const pngBinary = await fetch('/.netlify/functions/render?' + params.toString())
-      .then(res => res.text())
+      .then(res => {
+        if (res.ok) {
+          return res.text()
+        } else {
+          throw new Error('Invalid URL.')
+        }
+      })
     const referenceScreenshot = 'data:image/png;base64,' + pngBinary
 
     return {
