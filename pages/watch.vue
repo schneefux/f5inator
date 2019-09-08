@@ -31,7 +31,6 @@ export default {
   async asyncData({ query }) {
     const URLSearchParams = global.URLSearchParams || require('url').URLSearchParams
     const params = new URLSearchParams(query)
-    // TODO when rendering server side, fetch needs an absolute URL
     const pngBinary = await fetch('/.netlify/functions/render?' + params.toString())
       .then(res => res.text())
     const referenceScreenshot = 'data:image/png;base64,' + pngBinary
