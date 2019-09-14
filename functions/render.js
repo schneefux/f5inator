@@ -48,6 +48,7 @@ exports.handler = async (event) => {
       body: screenshot,
     }
   } catch (error) {
+    console.error(error);
     return {
       statusCode: 400,
       body: JSON.stringify(error),
