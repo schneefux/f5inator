@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col justify-center bg-blue-900">
-    <div class="text-center text-gray-200 z-10">
+    <div class="mt-10 text-center text-gray-200 z-10">
       <h1 class="text-5xl uppercase font-black">
         f5inator
       </h1>
@@ -9,7 +9,7 @@
       </h2>
     </div>
 
-    <div class="mt-10 px-8 md:px-16 text-gray-300 z-10">
+    <div class="mt-10 mb-10 px-8 md:px-16 text-gray-300 z-10">
       <nuxt />
     </div>
 
