@@ -25,7 +25,8 @@ exports.handler = async (event) => {
 
     const page = await browser.newPage()
     await page.goto(url, {
-      waitUntil: ['domcontentloaded', 'networkidle0'],
+      timeout: 7000, // functions timeout is 10s
+      waitUntil: ['domcontentloaded'],
     })
 
     const filename = crypto.createHash('sha256').update(url).digest('base64').replace(/\+|\/|=/g, '') + '.png'
