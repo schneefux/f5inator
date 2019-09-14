@@ -1,7 +1,7 @@
 {
   "name": "f5inator",
   "version": "1.0.0",
-  "description": "My good Nuxt.js project",
+  "description": "Website monitoring application",
   "author": "schneefux",
   "private": true,
   "scripts": {
