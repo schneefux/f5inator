@@ -23,7 +23,7 @@
       </button>
     </div>
 
-    <div class="mt-3 max-h-400px overflow-y-scroll mx-auto">
+    <div class="mt-3 mx-auto">
       <vue-cropper
         :src="screenshot"
         :crop="onCrop"
@@ -108,8 +108,4 @@ export default {
 
 <style>
 @import 'cropperjs/src/index.css';
-
-.max-h-400px {
-  max-height: 400px;
-}
 </style>

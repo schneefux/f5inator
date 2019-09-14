@@ -33,7 +33,7 @@
 
     <img
       :src="screenshot"
-      class="mt-4 max-h-400px"
+      class="mt-4"
     />
   </div>
 </template>
