@@ -107,6 +107,9 @@ export default {
 
     this.timer = setTimeout(() => this.onTick(), this.timerIntervalSeconds * 1000)
   },
+  mounted() {
+    window.addEventListener('beforeunload', this.onBeforeUnload)
+  },
   computed: {
     refreshIntervalFormatted() {
       return formatIntervalSeconds(this.refreshIntervalSeconds)
@@ -162,11 +165,16 @@ export default {
         }
       }
     },
+    onBeforeUnload(event) {
+      event.preventDefault()
+      event.returnValue = ''
+    },
   },
   destroyed() {
     if (this.timer !== undefined) {
       clearInterval(this.timer)
     }
+    window.removeEventListener('beforeunload', this.onBeforeUnload)
   },
 }
 </script>
