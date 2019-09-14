@@ -11,6 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@cliqz/adblocker-puppeteer": "^1.0.2",
     "@nuxtjs/pwa": "^3.0.0-0",
     "chrome-aws-lambda": "^1.19.0",
     "node-fetch": "^2.6.0",

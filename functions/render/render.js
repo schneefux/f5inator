@@ -2,6 +2,10 @@ const crypto = require('crypto')
 const chromium = require('chrome-aws-lambda')
 const puppeteer = require('puppeteer-core')
 // const puppeteer = require('puppeteer')
+const fs = require('fs')
+const { URL } = require('url')
+const { promisify } = require('util')
+const readFile = promisify(fs.readFile)
 
 exports.handler = async (event) => {
   const params = event.queryStringParameters
@@ -22,8 +26,19 @@ exports.handler = async (event) => {
       headless: chromium.headless,
       // headless: true
     })
-
     const page = await browser.newPage()
+    await page.setRequestInterception(true)
+
+    const blockedHostsTxt = await readFile(require.resolve('./blocked_hosts'), 'utf-8')
+    const blockedHosts = blockedHostsTxt.split('\n')
+    page.on('request', request => {
+      if (blockedHosts.includes(new URL(request.url()).host)) {
+        request.abort()
+      } else {
+        request.continue()
+      }
+    })
+
     await page.goto(url, {
       timeout: 7000, // functions timeout is 10s
       waitUntil: ['domcontentloaded'],
