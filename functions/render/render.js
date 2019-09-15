@@ -39,10 +39,18 @@ exports.handler = async (event) => {
       }
     })
 
-    await page.goto(url, {
-      timeout: 7000, // functions timeout is 10s
-      waitUntil: ['domcontentloaded'],
-    })
+    try {
+      await page.goto(url, {
+        timeout: 5000, // functions timeout is 10s
+        waitUntil: ['domcontentloaded'],
+      })
+    } catch (err) {
+      if (err instanceof puppeteer.errors.TimeoutError) {
+        console.warn('reached timeout, domcontent is not fully loaded yet')
+      } else {
+        throw err
+      }
+    }
 
     const filename = crypto.createHash('sha256').update(url).digest('base64').replace(/\+|\/|=/g, '') + '.png'
     const fullPage = [x, y, width, height].includes(undefined)
