@@ -44,7 +44,7 @@ exports.handler = async (event) => {
     console.time('navigation')
     try {
       await page.goto(url, {
-        timeout: 5000, // functions timeout is 10s
+        timeout: 2000, // functions timeout is 10s
         waitUntil: ['domcontentloaded'],
       })
     } catch (err) {
