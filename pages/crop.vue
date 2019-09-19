@@ -23,8 +23,9 @@
       </button>
     </div>
 
-    <div class="mt-3 mx-auto">
+    <div class="mt-3 mx-auto text-center">
       <vue-cropper
+        ref="cropper"
         :src="screenshot"
         :crop="onCrop"
         :viewMode="2"
@@ -32,13 +33,49 @@
         :autoCrop="false"
         :rotatable="false"
         :zoomable="false"
+        class="mx-auto"
       />
+      <button
+        class="step-btn rounded-b"
+        @click.prevent="loadMore"
+      >
+        <span
+          v-show="($nuxt.$loading||{}).show"
+          class="loader inline-flex"
+        />
+        <span v-show="!($nuxt.$loading||{}).show">
+          Load more
+        </span>
+      </button>
     </div>
   </form>
 </template>
 
 <script>
 import VueCropper from 'vue-cropperjs'
+
+async function render(url, height) {
+  const params = new URLSearchParams({
+    url,
+    x: 0,
+    y: 0,
+    // defaultViewport
+    width: 800,
+    height,
+  })
+
+  const pngBinary = await fetch('/.netlify/functions/render?' + params.toString())
+    .then(res => {
+      if (res.ok) {
+        return res.text()
+      } else {
+        throw new Error('Invalid URL.')
+      }
+    })
+  const screenshot = 'data:image/png;base64,' + pngBinary
+
+  return screenshot
+}
 
 export default {
   head() {
@@ -58,20 +95,13 @@ export default {
     }
   },
   async asyncData({ query }) {
-    const url = query.url || ''
-
-    const pngBinary = await fetch('/.netlify/functions/render?url=' + url)
-      .then(res => {
-        if (res.ok) {
-          return res.text()
-        } else {
-          throw new Error('Invalid URL.')
-        }
-      })
-    const screenshot = 'data:image/png;base64,' + pngBinary
+    const url = query.url
+    const height = query.height || 1200
+    const screenshot = await render(url, height)
 
     return {
       url,
+      height,
       screenshot,
     }
   },
@@ -83,6 +113,16 @@ export default {
   methods: {
     onCrop(event) {
       this.cropBox = event.detail
+    },
+    async loadMore() {
+      this.height += 600
+      this.$nuxt.$loading.start()
+      await this.$nextTick()
+
+      const screenshot = await render(this.url, this.height)
+      this.$refs.cropper.replace(screenshot)
+
+      this.$nuxt.$loading.finish()
     },
   },
   computed: {

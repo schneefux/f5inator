@@ -9,10 +9,6 @@ const readFile = promisify(fs.readFile)
 exports.handler = async (event) => {
   const params = event.queryStringParameters
   const url = decodeURIComponent(params.url)
-  const x = 'x' in params ? parseInt(params.x) : undefined
-  const y = 'y' in params ? parseInt(params.y) : undefined
-  const width = 'width' in params ? parseInt(params.width) : undefined
-  const height = 'height' in params ? parseInt(params.height) : undefined
 
   let browser
 
@@ -24,7 +20,7 @@ exports.handler = async (event) => {
       args: chromium.args,
       executablePath: executablePath,
       headless: chromium.headless,
-      // headless: true
+      // headless: true,
     })
     const page = await browser.newPage()
     await page.setRequestInterception(true)
@@ -44,7 +40,7 @@ exports.handler = async (event) => {
     console.time('navigation')
     try {
       await page.goto(url, {
-        timeout: 2000, // functions timeout is 10s
+        timeout: 4000, // functions timeout is 10s
         waitUntil: ['domcontentloaded'],
       })
     } catch (err) {
@@ -58,15 +54,17 @@ exports.handler = async (event) => {
 
     console.time('screenshot')
     const filename = crypto.createHash('sha256').update(url).digest('base64').replace(/\+|\/|=/g, '') + '.png'
-    const fullPage = [x, y, width, height].includes(undefined)
-    const clip = fullPage ? undefined : { x, y, width, height }
     const screenshot = await page.screenshot({
       path: '/tmp/' + filename,
       // path: './tmp/' + filename,
       type: 'png',
       encoding: 'base64',
-      fullPage,
-      clip,
+      clip: {
+        x: +params.x,
+        y: +params.y,
+        width: +params.width,
+        height: +params.height,
+      },
     })
     console.timeEnd('screenshot')
 
