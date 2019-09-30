@@ -13,8 +13,8 @@ exports.handler = async (event) => {
   let browser
 
   try {
-    console.time('startup')
     const executablePath = await chromium.executablePath
+    console.time(`${url} startup`)
 
     browser = await puppeteer.launch({
       args: chromium.args,
@@ -35,9 +35,9 @@ exports.handler = async (event) => {
         request.continue()
       }
     })
-    console.timeEnd('startup')
+    console.timeEnd(`${url} startup`)
 
-    console.time('navigation')
+    console.time(`${url} navigation`)
     try {
       await page.goto(url, {
         timeout: 4000, // functions timeout is 10s
@@ -50,9 +50,9 @@ exports.handler = async (event) => {
         throw err
       }
     }
-    console.timeEnd('navigation')
+    console.timeEnd(`${url} navigation`)
 
-    console.time('screenshot')
+    console.time(`${url} screenshot`)
     const filename = crypto.createHash('sha256').update(url).digest('base64').replace(/\+|\/|=/g, '') + '.png'
     const screenshot = await page.screenshot({
       path: '/tmp/' + filename,
@@ -66,7 +66,7 @@ exports.handler = async (event) => {
         height: +params.height,
       },
     })
-    console.timeEnd('screenshot')
+    console.timeEnd(`${url} screenshot`)
 
     return {
       headers: {
