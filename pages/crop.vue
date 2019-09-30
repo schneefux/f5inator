@@ -56,13 +56,12 @@
 <script>
 import VueCropper from 'vue-cropperjs'
 
-async function render(url, height) {
+async function render(url, width, height) {
   const params = new URLSearchParams({
     url,
     x: 0,
     y: 0,
-    // defaultViewport
-    width: 800,
+    width,
     height,
   })
 
@@ -98,11 +97,14 @@ export default {
   },
   async asyncData({ query }) {
     const url = query.url
+    // defaultViewport
+    const width = 800
     const height = query.height || 1200
-    const screenshot = await render(url, height)
+    const screenshot = await render(url, width, height)
 
     return {
       url,
+      width,
       height,
       screenshot,
     }
@@ -146,7 +148,12 @@ export default {
             y: Math.round(this.cropBox.y),
             width: Math.round(this.cropBox.width),
             height: Math.round(this.cropBox.height),
-          } : {},
+          } : {
+            x: 0,
+            y: 0,
+            width: this.width,
+            height: this.height,
+          },
         },
       }
     },
