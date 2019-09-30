@@ -1,7 +1,7 @@
 <template>
   <form
     class="flex flex-col items-center"
-    @submit.prevent="$router.push(cropRoute)"
+    @submit.prevent="submit"
   >
     <label for="location-input" class="step-description">
       Enter a website
@@ -33,10 +33,10 @@
           class="step-btn -mr-1 rounded-r"
         >
           <span
-            v-show="($nuxt.$loading||{}).show"
+            v-show="loading"
             class="loader inline-flex"
           />
-          <span v-show="!($nuxt.$loading||{}).show">
+          <span v-show="!loading">
             Go
           </span>
         </button>
@@ -71,11 +71,18 @@ export default {
     return {
       https: true,
       location: '',
+      loading: false,
     }
   },
   methods: {
     toggleHttps() {
       this.https = !this.https
+    },
+    submit() {
+      if (!this.loading) {
+        this.loading = true
+        this.$router.push(this.cropRoute)
+      }
     },
   },
   computed: {

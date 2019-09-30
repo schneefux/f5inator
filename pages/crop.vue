@@ -1,7 +1,7 @@
 <template>
   <form
     class="flex flex-col items-center"
-    @submit.prevent="$router.push(watchRoute)"
+    @submit.prevent="submit"
   >
     <div>
       <label for="crop-btn-submit" class="step-description">
@@ -10,14 +10,15 @@
 
       <button
         id="crop-btn-submit"
+        :disabled="loading"
         type="submit"
         class="ml-3 step-btn rounded"
       >
         <span
-          v-show="($nuxt.$loading||{}).show"
+          v-show="loading"
           class="loader inline-flex"
         />
-        <span v-show="!($nuxt.$loading||{}).show">
+        <span v-show="!loading">
           Next
         </span>
       </button>
@@ -36,14 +37,15 @@
         class="mx-auto"
       />
       <button
+        :disabled="loading"
         class="step-btn rounded-b"
         @click.prevent="loadMore"
       >
         <span
-          v-show="($nuxt.$loading||{}).show"
+          v-show="loading"
           class="loader inline-flex"
         />
-        <span v-show="!($nuxt.$loading||{}).show">
+        <span v-show="!loading">
           Load more
         </span>
       </button>
@@ -108,6 +110,7 @@ export default {
   data() {
     return {
       cropBox: {},
+      loading: false,
     }
   },
   methods: {
@@ -116,13 +119,18 @@ export default {
     },
     async loadMore() {
       this.height += 600
-      this.$nuxt.$loading.start()
-      await this.$nextTick()
+      this.loading = true
 
       const screenshot = await render(this.url, this.height)
       this.$refs.cropper.replace(screenshot)
 
-      this.$nuxt.$loading.finish()
+      this.loading = false
+    },
+    submit() {
+      if (!this.loading) {
+        this.loading = true
+        this.$router.push(this.watchRoute)
+      }
     },
   },
   computed: {
