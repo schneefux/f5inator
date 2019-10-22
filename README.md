@@ -1,6 +1,8 @@
 # f5inator
 
-> My good Nuxt.js project
+## Development Setup
+
+`netlify dev`
 
 ## Build Setup
 
@@ -19,4 +21,6 @@ $ yarn start
 $ yarn generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## Backend
+
+`API_PORT=3001 node functions/render/local.js`
