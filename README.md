@@ -23,4 +23,4 @@ $ yarn generate
 
 ## Backend
 
-`API_PORT=3001 node functions/render/local.js`
+`API_PORT=3001 node functions/local/render.js`

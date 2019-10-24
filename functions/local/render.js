@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer')
 const Koa = require('koa')
 const Router = require('@koa/router')
 
-const service = require('./service')
+const service = require('../lambda/render/service')
 
 const app = new Koa()
 const router = new Router()

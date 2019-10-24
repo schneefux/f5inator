@@ -4,7 +4,7 @@
 [build]
   command = "yarn generate"
   publish = "dist"
-  functions = "functions"
+  functions = "functions/lambda"
 
 [build.environment]
   AWS_LAMBDA_JS_RUNTIME = "nodejs8.10" # required for aws-chrome
