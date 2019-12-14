@@ -99,7 +99,7 @@ export default {
     const url = query.url
     // defaultViewport
     const width = 800
-    const height = query.height || 1200
+    const height = +query.height || 1200
     const screenshot = await render(url, width, height)
 
     return {
