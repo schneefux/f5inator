@@ -123,7 +123,7 @@ export default {
       this.height += 600
       this.loading = true
 
-      const screenshot = await render(this.url, this.height)
+      const screenshot = await render(this.url, this.width, this.height)
       this.$refs.cropper.replace(screenshot)
 
       this.loading = false
