@@ -17,7 +17,6 @@ exports.handler = async (event) => {
       { puppeteer, launch: {
         executablePath: await chromium.executablePath,
         args: chromium.args,
-        executablePath: executablePath,
         headless: chromium.headless,
       }, tmpPath: '/tmp/' })
     return {
