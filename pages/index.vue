@@ -90,7 +90,7 @@ export default {
       return {
         name: 'crop',
         query: {
-          url: (this.https ? 'https://' : 'http://') + this.location,
+          url: (this.https ? 'https://' : 'http://') + this.location.replace(/https?:\/\//, ''),
         },
       }
     },
