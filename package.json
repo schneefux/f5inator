@@ -18,12 +18,12 @@
     "koa": "^2.10.0",
     "node-fetch": "^2.6.0",
     "nuxt": "^2.9.2",
-    "puppeteer-core": "^1.19.0",
     "resemblejs": "^3.2.2",
     "vue-cropperjs": "^4.0.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.1.2",
-    "puppeteer": "^1.19.0"
+    "puppeteer": "^1.19.0",
+    "puppeteer-core": "^1.20.0"
   }
 }
