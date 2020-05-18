@@ -12,6 +12,7 @@ module.exports.render = async function render({ url, x, y, width, height },
     console.time(`${url} startup`)
     browser = await puppeteer.launch(launch)
     const page = await browser.newPage()
+    page.setViewport({ width: 600, height: Math.max(800, y + height) })
     await page.setRequestInterception(true)
 
     const blockedHostsTxt = await readFile(require.resolve('./blocked_hosts'), 'utf-8')
